@@ -15,7 +15,7 @@ cd /tmp
 
 
 # install MySLQ
-yum install -y  git wget vim mariadb-server
+dnf install -y  git wget vim mariadb-server
 systemctl start mariadb
 systemctl enable mariadb
 
