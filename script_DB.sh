@@ -47,7 +47,6 @@ password=$DB_password
 EOF
 
 #download le fichier d'init de la DB
-mkdir /tmp/DEMO-Hybride_VM_K8S/
 cd /tmp/DEMO-Hybride_VM_K8S/
 wget https://raw.githubusercontent.com/ahugla/DEMO-Hybride_VM_K8S/main/DB_init.sql
 
