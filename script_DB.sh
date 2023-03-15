@@ -46,10 +46,14 @@ user=root
 password=$DB_password
 EOF
 
+#download le fichier d'init de la DB
+mkdir /tmp/DEMO-Hybride_VM_K8S/
+cd /tmp/DEMO-Hybride_VM_K8S/
+wget https://raw.githubusercontent.com/ahugla/DEMO-Hybride_VM_K8S/main/DB_init.sql
 
 
 # create base et populate
-mysql  --defaults-extra-file=/var/lib/mysql/extra  < /tmp/Docaposte/ArchiHybride-VMs-K8S/dump_testndc.sql
+mysql  --defaults-extra-file=/var/lib/mysql/extra  < /tmp/DEMO-Hybride_VM_K8S/DB_init.sql
 #mysql -u root -p
 #USE testndc;
 #SHOW TABLES;
