@@ -60,7 +60,8 @@ mysql  --defaults-extra-file=/var/lib/mysql/extra  < /tmp/DEMO-Hybride_VM_K8S/DB
 
 
 # create user testndcuser and enable remote connection
-sed -i '2 i\bind-address = 0.0.0.0' /etc/my.cnf
+#sed -i '2 i\bind-address = 0.0.0.0' /etc/my.cnf  # non car le met trop tot 
+echo "bind-address = 0.0.0.0" >> /etc/my.cnf
 mysql --defaults-extra-file=/var/lib/mysql/extra -e "CREATE USER 'testndcuser'@'%' IDENTIFIED BY '$DB_password';"
 mysql --defaults-extra-file=/var/lib/mysql/extra -e "GRANT ALL PRIVILEGES ON testndc.* TO 'testndcuser'@'%';"
 mysql --defaults-extra-file=/var/lib/mysql/extra -e "FLUSH PRIVILEGES;"
