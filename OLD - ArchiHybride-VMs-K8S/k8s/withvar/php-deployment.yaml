@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: lamp-php-fpm
+  name: lamp-php-fpm
+  namespace: lamp-k8s
+spec:
+  replicas: $${NBRE_REPLICAS}
+  selector:
+    matchLabels:
+      app: lamp-php-fpm
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: lamp-php-fpm
+        tier: backend
+    spec:      
+      containers:
+      - image: alexandreroman/ndc-php@sha256:3aa56f1107b925e56fff23003a6ee5fb905646b63de914fa8bafd150df27d65f
+        name: lamp-php-fpm
+        ports:
+        - containerPort: 9000
+          name: lamp-php-fpm
+        volumeMounts:
+        - mountPath: /app
+          name: lamp-phpcontent
+      volumes:
+      - name: lamp-phpcontent
+        configMap:
+          name: php-content
+        

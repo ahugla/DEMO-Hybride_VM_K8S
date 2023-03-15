@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lamp-apache
+  namespace: lamp-k8s
+  labels:
+    app.kubernetes.io/name: apache
+    helm.sh/chart: apache-8.5.1
+    app.kubernetes.io/instance: lamp-apache
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apache
+      app.kubernetes.io/instance: lamp-apache
+  replicas: $${NBRE_REPLICAS}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apache
+        helm.sh/chart: apache-8.5.1
+        app.kubernetes.io/instance: lamp-apache
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      # yamllint disable rule:indentation
+      hostAliases:
+        - hostnames:
+          - status.localhost
+          ip: 127.0.0.1
+      # yamllint enable rule:indentation
+      affinity:
+        podAffinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: apache
+                    app.kubernetes.io/instance: lamp-apache
+                namespaces:
+                  - "ndc-app2"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+      containers:
+        - name: apache
+          image: docker.io/bitnami/apache:2.4.46-debian-10-r218
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 8443
+          livenessProbe:
+            httpGet:
+              path: /healthcheck.html
+              port: http
+            initialDelaySeconds: 180
+            periodSeconds: 20
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /healthcheck.html
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: htdocs
+              mountPath: /app
+            - name: vhosts
+              mountPath: /vhosts
+      volumes:
+        - name: htdocs     
+          configMap:
+            name: apache-healthcheck
+        - name: vhosts
+          configMap:
+            name: apache-conf
+            
