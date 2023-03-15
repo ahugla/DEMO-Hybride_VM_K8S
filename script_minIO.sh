@@ -28,9 +28,14 @@ chmod +x /opt/minio/bin/minio
 mkdir /data
 
 
+# get object file
+cd /tmp/DEMO-Hybride_VM_K8S/
+wget https://raw.githubusercontent.com/ahugla/DEMO-Hybride_VM_K8S/main/stockage_objet_NDC.txt
+
+
 # create content bucket et file for test
 mkdir /data/testndc
-cp /tmp/Docaposte/ArchiHybride-VMs-K8S/stockage_objet_NDC.txt /data/testndc/
+cp /tmp/DEMO-Hybride_VM_K8S/stockage_objet_NDC.txt /data/testndc/
 
 
 
