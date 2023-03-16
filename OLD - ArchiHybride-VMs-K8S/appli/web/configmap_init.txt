@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: php-content
-  namespace: lamp-k8s
-data:
-  poc.php: |
