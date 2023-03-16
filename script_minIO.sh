@@ -13,7 +13,7 @@ export MINIO_OPTS="--address :9000"
 
 
 cd /tmp
-dnf install -y wget
+yum install -y wget
 
 
 #download minIO

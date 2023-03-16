@@ -14,8 +14,8 @@ echo "DB_password = " $DB_password
 cd /tmp
 
 
-# install MySLQ
-dnf install -y  git wget vim mariadb-server
+# install mariaDB
+yum install -y  wget vim mariadb-server
 systemctl start mariadb
 systemctl enable mariadb
 
